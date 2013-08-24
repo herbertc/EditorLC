@@ -14,4 +14,7 @@
 
 *.wav
 
+# Ignorando arquivos de backup do Kate
+*~
+
 /bin/*
