@@ -1,33 +1,25 @@
 #ifndef CHUNK_H
 #define CHUNK_H
 
-#include <stdint.h>
-#include <string>
+#include <iostream>
+#include "data.h"
 
 using namespace std;
 
 class Chunk {
+	friend ostream& operator<<(ostream& os, const Chunk *chunk)
+	{
+		chunk->print(os);
+		return os;
+	}
+
 public:
-	Chunk();
-	~Chunk();
+	virtual ~Chunk() {}
 
-	void read(uint8_t *data);
-	int write(uint8_t *data);
+	virtual Data * encode() const = 0;
+	virtual uint32_t decode(const Data& data, uint32_t offset = 0) = 0;
 
-	string id() const;
-	uint32_t size() const;
-	uint8_t * data() const;
-	
-	void setID(const string& id);
-	void setData(const uint8_t *data, uint32_t size);
-
-private:
-	char _id[4];
-	uint32_t _size;
-	uint8_t *_data;
-
-	bool realloc(uint32_t size);
+	virtual void print(ostream& os) const = 0;
 };
 
 #endif
-

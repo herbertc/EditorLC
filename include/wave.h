@@ -2,13 +2,35 @@
 #define WAVE_H
 
 #include <SDL/SDL.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <iostream>
+//#include <stdio.h>
+//#include <stdlib.h>
+//#include <string.h>
 #include <string>
+#include <vector>
+
+#include "chunk.h"
 
 using namespace std;
+
+class Wave : public Chunk {
+public:	
+	~Wave();
+
+	Data * encode() const;
+	uint32_t decode(const Data& data, uint32_t offset = 0);
+
+	void print(ostream& os) const;
+	void save(const string& path) const;
+
+	static Wave * load(const string& path);
+	static const string id;
+	static const uint32_t size;
+
+	void add_chunk(Chunk *chunk);
+	
+private:
+	vector<Chunk *> m_subchunks;
+};
 
 typedef struct _Wave_Header
 {
@@ -18,7 +40,7 @@ typedef struct _Wave_Header
 
 }Wave_Header;
 
-/*typedef struct _Subchunk1
+typedef struct _Subchunk1
 {
   char subchunk1ID[4];		//"fmt "
   Uint32 subchunk1Size;		//16 - tamanho do bloco "fmt " (16 bytes)
@@ -29,14 +51,14 @@ typedef struct _Wave_Header
   Uint16 blockAlign;		//numChannels*bitsperSample/8
   Uint16 bitsperSample;		//8 ou 16
   
-}Subchunk1;*/
+}Subchunk1;
 
-/*typedef struct _Subchunk2
+typedef struct _Subchunk2
 {
   char subchunk2ID[4];		//"data"
   Uint32 subchunk2Size;		//tamanho do bloco "data": NumSamples * NumChannels * BitsPerSample/8
   char* data;			//amostra de dados - possui o número de bytes de subchunk2Size.
-} Subchunk2;*/
+} Subchunk2;
   
 typedef struct _subchunk
 {
@@ -89,3 +111,4 @@ extern void print_header_file(Wave_Header *wh);
 extern SDL_AudioSpec* Load_Wave(const char *file, SDL_AudioSpec *spec, Uint8 **audio_buf, Uint32 *audio_len);
 
 #endif
+

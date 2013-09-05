@@ -1,12 +1,16 @@
 #include <cstring>
+#include <string>
 #include "chunk.h"
 #include <stdio.h>
+#include <stdlib.h>
+
+const int Chunk::HEADER_SIZE = 8;
 
 Chunk::Chunk()
 {
 	memcpy(_id, "UNDF", 4);
 	_size = 0;
-	_data = 0;	
+	_data = 0;
 }
 
 Chunk::~Chunk()
@@ -18,23 +22,36 @@ Chunk::~Chunk()
 }
 
 void 
-Chunk::read(uint8_t *data)
+Chunk::read(uint8_t *data, int index)
 {
-	memcpy(_id, data, 4);
+	memcpy(_id, data + index, 4);
+	index += 4;
 
-	int size;
-	memcpy(&size, data + 4, 4);
+	uint32_t size;
+	memcpy(&size, data + index, 4);
+	index += 4;
 	
 	if (size > _size)
 		realloc(size);
 
-	memcpy(_data, data + 8, size);
+	memcpy(_data, data + index, size);
 }
 
 int 
-Chunk::write(uint8_t *data)
+Chunk::write(uint8_t *data, int index)
 {
-	return 0;
+	if (!data)
+		return 0;
+		
+	memcpy(data + index, _id, 4);
+	index += 4;
+
+	memcpy(data + index, &_size, 4);
+	index += 4;
+
+	memcpy(data + index, _data, _size);
+
+	return _size + HEADER_SIZE;
 }
 
 uint8_t * 
@@ -85,18 +102,18 @@ Chunk::setData(const uint8_t *data, uint32_t size)
 bool
 Chunk::realloc(uint32_t size)
 {
-	if (_data > 0)
+	if (_data != 0)
 	{
 		delete [] _data;
 	}
 
 	_data = new uint8_t[size];
 
-	if (_data > 0)
+	if (_data != 0)
 	{
 		_size = size;
 	}
 
-	return _data > 0;
+	return _data != 0;
 }
 

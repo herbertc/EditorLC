@@ -1,20 +1,20 @@
-#include "sound.h"
+#include <SDL/SDL.h>
 #include "wave.h"
-#include "chunk.h"
+#include "meta.h"
+#include "sound.h"
 
-void teste();
+void teste(char *path);
 
 int main(int argc, char *argv[])
 {
-	teste();
-
 	if (argc != 2)
 	{
-		fprintf(stderr, "Usage: %s {wave_file.wav}\n", argv[0]);
+		cerr << "Usage: " << argv[0] << " {wave_file.wav}\n";
 		return -1;
 	}
 	
 	char *path = argv[1];
+//	teste(path);
 	
 	int rc = SDL_Init(SDL_INIT_AUDIO);
 
@@ -60,14 +60,6 @@ int main(int argc, char *argv[])
 	Uint32 wavLen;
 	Uint8 *wavBuffer;
 
-/*
-	if (SDL_LoadWAV(path , &wavSpec, &wavBuffer, &wavLen) == NULL) {
-		cout << "Falha! " << SDL_GetError() << endl;
-		SDL_CloseAudio();
-		SDL_Quit();
-		return -3;
-	}
-*/
 	if (Load_Wave(path, &wavSpec, &wavBuffer, &wavLen) == NULL) {
 		cout << "Falha! " << SDL_GetError() << endl;
 		SDL_CloseAudio();
@@ -139,10 +131,30 @@ int main(int argc, char *argv[])
 
 	while (true)
 	{
+		int skip = 0;
 		SDL_LockAudio();
+		if (sound.position > 800000 && sound.position < sound.size / 2)
+		{
+			sound.position = sound.size / 2;
+			skip = 1;
+		}
+
+		if (sound.position > (55 * sound.size)/ 100)
+		{
+			sound.position = 0;
+			skip = 1;
+		}
+
 		if (sound.position >= sound.size)
 			break;
 		SDL_UnlockAudio();
+
+		if (skip)
+		{
+			SDL_PauseAudio(1);
+			SDL_PauseAudio(0);
+			skip = 0;
+		}
 
 		SDL_Delay(10);
 	}
@@ -159,43 +171,22 @@ int main(int argc, char *argv[])
 	return 0;
 }
 
-void teste()
+void teste(char *path)
 {
-	FILE *wave = fopen("plane.wav", "rb");
+	Wave *wave = Wave::load(path);
 
-	fseek(wave, 0, SEEK_END);
-	long size = ftell(wave);
-	fseek(wave, 0, SEEK_SET);
+	cout << wave << endl;
 
-	cout << "Size = " << size << endl;
-	uint8_t *bytes = new uint8_t[size];
-	fread(bytes, sizeof(uint8_t), size, wave);
-
-	Chunk chunk;
-
-	cout << "Id = " << chunk.id() << endl;
-	cout << "Size = " << chunk.size() << endl;
-
-	chunk.read(bytes);
-
-	cout << "Id = " << chunk.id() << endl;
-	cout << "Size = " << chunk.size() << endl;
-
-	char init[5];
-	init[4] = 0;
-	memcpy(init, chunk.data(), 4);
-
-	cout << "Data inicial = " << init << endl;
-
-	Chunk sub1;
-	sub1.read(chunk.data() + 4);
-	cout << "Id = " << sub1.id() << endl;
-	cout << "Size = " << sub1.size() << endl;
-
-	memcpy(init, sub1.data(), 4);
-	cout << "Data inicial = " << init << endl;
-
-
-	delete [] bytes;
+	Meta *meta = new Meta();
+	meta->setTitle("O Capital - Crítica da Economia Política");
+	meta->setAuthor("Karl Marx");
+	meta->setLanguage("Portugues");
+	meta->setPublisher("Victor Civita");
+	meta->setYear("1983");
+	meta->setAddress("São Paulo");
+	meta->setpages("301");
+	
+	wave->add_chunk(meta);
+	wave->save("output.wav");
 }
 

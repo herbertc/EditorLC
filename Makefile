@@ -12,7 +12,7 @@ TEST_DIR    = test
 BIN_DIR	    = bin
 PLUGIN_DIR  = plugins
 
-FILES = sound.cpp wave.cpp chunk.cpp
+FILES = data.cpp wave.cpp chunkfactory.cpp generic.cpp meta.cpp sound.cpp
 
 TEST_FILES = 
 
