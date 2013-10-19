@@ -12,6 +12,7 @@ public:
 
 	uint32_t size() const;
 	const uint8_t * bytes(uint32_t offset = 0) const;
+	
 
 private:
 	uint32_t m_size;

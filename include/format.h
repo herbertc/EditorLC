@@ -1,5 +1,5 @@
-#ifndef FMT_H
-#define FMT_H
+#ifndef FORMAT_H
+#define FORMAT_H
 
 #include <stdint.h>
 #include <string.h>
@@ -8,10 +8,10 @@
 
 using namespace std;
 
-class Fmt : public Chunk
+class Format : public Chunk
 {
 public:
-	Fmt();
+	Format();
 	
 	Data * encode() const;
 	uint32_t decode(const Data& data, uint32_t offset = 0);
@@ -19,17 +19,19 @@ public:
 	uint16_t audioFormat() const;
 	uint16_t numChannels() const;
 	uint32_t sampleRate() const;
+	uint16_t bitsPerSample() const;
 	
 	void print(ostream& os) const;
 	
 	static const string id;
+
 private:
-	uint16_t _audioFormat;
-	uint16_t _numChannels;
-	uint32_t _sampleRate;
-	uint32_t _byteRate; 
-	uint16_t _blockAlign;
-	uint16_t _bitsperSample;
+	uint16_t m_audioFormat;
+	uint16_t m_numChannels;
+	uint32_t m_sampleRate;
+	uint32_t m_byteRate; 
+	uint16_t m_blockAlign;
+	uint16_t m_bitsperSample;
 	
 	uint32_t size() const;
 	

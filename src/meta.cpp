@@ -73,7 +73,6 @@ Meta::decode(const Data& data, uint32_t offset)
 	memcpy(&size, iterator + decoded, 4);
 	decoded += 4;
 
-	//...
 	uint32_t temp_size;
 	uint32_t fieldsCount = fields.size();
 

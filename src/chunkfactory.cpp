@@ -1,6 +1,8 @@
 #include "chunkfactory.h"
 #include "generic.h"
 #include "meta.h"
+#include "format.h"
+#include "lgmk.h"
 
 Chunk * 
 ChunkFactory::decode(const Data& data, uint32_t *decoded, uint32_t offset)
@@ -15,9 +17,14 @@ ChunkFactory::decode(const Data& data, uint32_t *decoded, uint32_t offset)
 	
 	if (memcmp(id, "META", 4) == 0)
 	{
-		cout << "Aqui" << endl;
 		chunk = new Meta();
-	} else
+	} else if(memcmp(id, "fmt ", 4) == 0)
+	{
+		chunk = new Format();
+	} else if(memcmp(id, "LGMK", 4) == 0)
+	{
+		chunk = new Lgmk();
+	}else
 	{
 		chunk = new Generic();
 	}
