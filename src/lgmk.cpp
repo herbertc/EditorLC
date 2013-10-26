@@ -262,8 +262,6 @@ Lgmk::add_subMarkName(string name)
 	m_subMarksNames.push_back(name);	
 }
 
-
-
 void 
 Lgmk::print(ostream& os) const
 {

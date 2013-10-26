@@ -208,7 +208,12 @@ void teste(char *path)
 
 	cout << '\n';
 
-	count = 1; 
+	cout <<"Insira o nome da primeira submarcação: ";
+	cin >> name;
+
+	lgmk->add_subMarkName(name);
+
+	count = 2; 
 	while(true)
 	{
 		cout << "Nível 2 - Marcação: " << count <<" - Entre com a posição em segundos. (Insira 0(Zero) para sair): ";
@@ -224,6 +229,7 @@ void teste(char *path)
 		}else
 		{
 			cout << "Edição de marcações de nível 2 finalizado!" << endl;
+			lgmk->add_subMark(0);
 			break;
 		}
 		cout << '\n';
