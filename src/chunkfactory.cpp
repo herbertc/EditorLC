@@ -3,6 +3,7 @@
 #include "meta.h"
 #include "format.h"
 #include "lgmk.h"
+#include "wavedata.h"
 
 Chunk * 
 ChunkFactory::decode(const Data& data, uint32_t *decoded, uint32_t offset)
@@ -24,7 +25,10 @@ ChunkFactory::decode(const Data& data, uint32_t *decoded, uint32_t offset)
 	} else if(memcmp(id, "LGMK", 4) == 0)
 	{
 		chunk = new Lgmk();
-	}else
+	}/*else if (memcmp(id, "data", 4) == 0)
+	{
+		chunk = new WaveData();
+	}*/else
 	{
 		chunk = new Generic();
 	}

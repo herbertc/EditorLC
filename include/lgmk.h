@@ -22,14 +22,27 @@ public:
 	void print(ostream& os) const;
 	
 	vector<uint32_t> marks() const;
+	vector<string> marksNames() const;
+
+	vector<uint32_t> subMarks() const;
+	vector<string> subMarksNames() const;
 	
 	void add_mark(uint32_t position);
+	void add_markName(string name);
+
+	void add_subMark(uint32_t position);
+	void add_subMarkName(string name);
 	
 	static const string id;
 private:
-	vector<uint32_t> m_marks; 
+	vector<uint32_t> m_marks;
+	vector<uint32_t> m_subMarks;
+	
+	vector<string> m_marksNames;
+	vector<string> m_subMarksNames;
 
 	uint32_t size() const;
 };
 
 #endif
+

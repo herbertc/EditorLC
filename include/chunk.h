@@ -2,6 +2,7 @@
 #define CHUNK_H
 
 #include <iostream>
+#include <string.h>
 #include "data.h"
 
 using namespace std;

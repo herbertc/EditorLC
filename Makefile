@@ -13,7 +13,7 @@ BIN_DIR	    = bin
 PLUGIN_DIR  = plugins
 
 FILES = data.cpp wave.cpp chunkfactory.cpp generic.cpp meta.cpp sound.cpp \
-		lgmk.cpp format.cpp 
+		lgmk.cpp format.cpp
 
 TEST_FILES = 
 

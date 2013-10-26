@@ -175,22 +175,64 @@ void teste(char *path)
 	Lgmk *lgmk = new Lgmk();
 	
 	uint32_t position;
+	string name;
 	
-	cout << "enter a positon (enter 0 to exit): " << endl;
+	cout <<"Insira o nome da primeira marcação: ";
+	cin >> name;
+
+	lgmk->add_markName(name);
 	
+	int count = 2;
 	while(true)
 	{
+		cout << "Nível 1 - Marcação: " << count << " - Entre com a posição em segundos. (Insira 0(Zero) para sair): ";
 		cin >> position;
-		
-		if(position == 0)
+
+		if(position != 0)
+		{
+			cout << "Marcação: " << count <<" - Insira o nome dessa marcação: ";
+			cin >> name;
+
+			lgmk->add_mark(position);
+			lgmk->add_markName(name); 
+		}else
+		{
+			lgmk->add_mark(0);
+			cout << "Edição de marcações de nível 1 finalizado!" << endl;
 			break;
+		}
+		cout << '\n';
+		count++;
 		
-		lgmk->add_mark(position);
 	}
-	
+
+	cout << '\n';
+
+	count = 1; 
+	while(true)
+	{
+		cout << "Nível 2 - Marcação: " << count <<" - Entre com a posição em segundos. (Insira 0(Zero) para sair): ";
+		cin >> position;
+
+		if(position != 0)
+		{
+			cout << "Marcação: " << count <<" - Insira o nome dessa marcação: ";
+			cin >> name;
+		
+			lgmk->add_subMark(position);
+			lgmk->add_subMarkName(name); 
+		}else
+		{
+			cout << "Edição de marcações de nível 2 finalizado!" << endl;
+			break;
+		}
+		cout << '\n';
+		count++;
+	}
+
 	cout << lgmk << endl;
+
 	wave->add_chunk(lgmk);
-	
 	wave->save("output.wav");
 }
 
