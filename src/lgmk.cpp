@@ -170,8 +170,7 @@ Lgmk::decode(const Data& data, uint32_t offset)
 		decoded += temp_size;
 	}
 
-	///////////////
-
+	
 	uint32_t subMarksNames;
 	memcpy(&subMarksNames, iterator + decoded, 4);
 	decoded += 4;
@@ -205,8 +204,6 @@ Lgmk::decode(const Data& data, uint32_t offset)
 		
 		decoded += temp_size2;
 	}
-
-	///////////////
 
 	return decoded;
 }
