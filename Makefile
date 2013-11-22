@@ -2,8 +2,8 @@ CC = g++
 
 CFLAGS = -O2 -W -Wall -pedantic -g  -ansi
 
-LIBS = -lSDL
-INCLUDES = -I./include -I. -I./test
+LIBS = -lSDL -L../Core -lcore
+INCLUDES = -I./include -I. -I./test -I../Core/include
 
 HEADERS_DIR = include
 SOURCES_DIR = src
@@ -12,8 +12,7 @@ TEST_DIR    = test
 BIN_DIR	    = bin
 PLUGIN_DIR  = plugins
 
-FILES = data.cpp wave.cpp chunkfactory.cpp generic.cpp meta.cpp sound.cpp \
-		lgmk.cpp format.cpp 
+FILES = 
 
 TEST_FILES = 
 
